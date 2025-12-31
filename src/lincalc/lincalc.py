@@ -1,16 +1,20 @@
 import argparse
 from lincalc.input import get_matrix_from_input
 from lincalc.operations.operations import (
-    rref
+    rref,
+    ref,
+    gram_schmidt,
+    nullspace,
+    column_space
 )
 #functions
 
 OPERATIONS = {
-    #'gram-schmidt': gram_schmidt,
+    'gram-schmidt': gram_schmidt,
     'rref': rref,
-    #'ref': ref,
-    #'nullspace': nullspace,
-    #'column-space': column_space,
+    'ref': ref,
+    'nullspace': nullspace,
+    'column-space': column_space,
 }
 
 def main():
@@ -59,7 +63,10 @@ def print_result(result):
     from sympy import Matrix
     
     if isinstance(result, Matrix):
-        print(result)
+        for i in range(result.rows):
+            row = result.row(i)
+            row_str = ' '.join(str(elem) for elem in row)
+            print(row_str)
     elif isinstance(result, list):
         if result and isinstance(result[0], Matrix):
             for i, vec in enumerate(result):
