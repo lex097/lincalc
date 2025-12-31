@@ -71,7 +71,12 @@ def print_result(result):
         if result and isinstance(result[0], Matrix):
             for i, vec in enumerate(result):
                 print(f"\nVector {i+1}:")
-                print(vec)
+                vector = []
+                for i in range(vec.rows):
+                    row = vec.row(i)
+                    vector.append(' '.join(str(elem) for elem in row))
+                vector_str = ' '.join(str(elem) for elem in vector)
+                print(vector_str)
         else:
             print(result)
     else:
