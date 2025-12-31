@@ -1,4 +1,5 @@
 import sympy
+from sympy import Matrix, Rational, sympify
 
 def get_matrix_from_input():
     rows = []
@@ -39,3 +40,6 @@ def get_matrix_from_input():
         raise ValueError("No matrix provided")
     
     return Matrix(rows)
+
+if __name__ == "__main__":
+    get_matrix_from_input()

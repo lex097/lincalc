@@ -1,38 +1,73 @@
 import argparse
-from input import get_matrix_from_input
-
+from lincalc.input import get_matrix_from_input
+from lincalc.operations.operations import (
+    rref
+)
 #functions
-"""
+
 OPERATIONS = {
-    'gram-schmidt': gram_schmidt,
+    #'gram-schmidt': gram_schmidt,
     'rref': rref,
-    'ref': ref,
-    'nullspace': nullspace,
-    'column-space': column_space,
+    #'ref': ref,
+    #'nullspace': nullspace,
+    #'column-space': column_space,
 }
-"""
+
 def main():
     parser = argparse.ArgumentParser(
         description="A simple linear algebra CLI.",
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""
-Available operations:
-  gram-schmidt    Gram-Schmidt orthogonalization
-  rref            Reduced row echelon form
-  ref             Row echelon form
-  nullspace       Null space basis
-  column-space    Column space basis
+        Available operations:
+        gram-schmidt    Gram-Schmidt orthogonalization
+        rref            Reduced row echelon form
+        ref             Row echelon form
+        nullspace       Null space basis
+        column-space    Column space basis
 
-Example:
-  "linalg rref"
-  (then enter your matrix with columns seperated by spaces and rows seperated by new lines)
+        Example:
+        "linalg rref"
+        (then enter your matrix with columns seperated by spaces and rows seperated by new lines)
         """
     )
 
     parser.add_argument(
         'operation',
-        choices=['rref'], #switch to OPERATIONS.keys() later
+        choices=OPERATIONS.keys(), #switch to OPERATIONS.keys() later
         help='Operation to perform'
     )
 
     args = parser.parse_args()
+
+    print(f"\nPerforming: {args.operation}")
+    print("Enter your matrix (space-separated values, press Enter for new row, empty line when done):")
+
+    try:
+        matrix = get_matrix_from_input()
+
+        operation_func = OPERATIONS[args.operation]
+        result = operation_func(matrix)
+
+        print(f"\nResult:")
+        print_result(result)
+    except Exception as e:
+        print(f"\nError: {e}")
+        return 1
+    return 0
+
+def print_result(result):
+    from sympy import Matrix
+    
+    if isinstance(result, Matrix):
+        print(result)
+    elif isinstance(result, list):
+        if result and isinstance(result[0], Matrix):
+            for i, vec in enumerate(result):
+                print(f"\nVector {i+1}:")
+                print(vec)
+        else:
+            print(result)
+    else:
+        print(result)
+if __name__ == "__main__":
+    exit(main())
