@@ -19,7 +19,7 @@ OPERATIONS = {
 
 def main():
     parser = argparse.ArgumentParser(
-        description="A simple linear algebra CLI.",
+        description="A simple CLI for linear algebra calculations.",
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""
         Available operations:
