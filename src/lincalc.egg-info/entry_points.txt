@@ -1,2 +1,0 @@
-[console_scripts]
-lincalc = lincalc.lincalc:main
